@@ -1,0 +1,2 @@
+The vulnerability stems from the "name" property being an unsanitized string in the request, making it vulnerable to cross-site scripting attacks. This flaw enables attackers to tamper with the input, potentially compromising the system's security. The secure version addresses this vulnerability by properly sanitizing all properties and variables received in the request.
+Tampering violates the Integrity property of the CIA properties.

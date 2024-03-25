@@ -1,1 +1,11 @@
 Briefly explain the vulnerability and why the secure version prevents the vulnerability.
+
+### Spoofing Vulnerability:
+
+Vulnerability Explanation: Spoofing on a web server occurs when an attacker disguises themselves as another user to gain unauthorized access to information or perform actions on their behalf. In the context of sessions maintained by the server in `spoofing/insecure.js`, if session IDs are not properly protected, an attacker could potentially steal or guess a user's session ID and impersonate that user.
+
+Secure Version Prevention: The secure version in `spoofing/secure.js` likely enhances security by implementing HTTPS, setting secure cookie flags (such as `HttpOnly` and `Secure`), and possibly using a more robust session ID generation mechanism. These measures make it harder for an attacker to intercept or spoof session cookies.
+
+CIA Violation: Spoofing primarily violates the Integrity and Authenticity aspects of the CIA (Confidentiality, Integrity, Availability) triad, as it allows attackers to unlawally modify and act on behalf of legitimate users.
+
+The vulnerability within insecure.js arises from its capability to set session information without the proper configuration of cookie.httpOnly, which should be set to false. This oversight leaves the system susceptible to exploitation by malicious actors who could leverage it for session hijacking or to carry out Cross-Site Request Forgery (CSRF) attacks. To address this issue effectively, it is necessary to ensure that cookie.httpOnly is configured to true. This adjustment will restrict unauthorized access to session data, thereby mitigating the risk of such attacks.

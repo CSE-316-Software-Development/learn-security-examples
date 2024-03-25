@@ -1,3 +1,9 @@
 Briefly explain the vulnerability and why the secure version prevents the vulnerability.
 Which CIA property does tampering violate?
+
+In the insecure script, the absence of username sanitization poses a risk of injection attacks. For instance, a user could input a query like username!='', potentially retrieving information for all users. To mitigate this vulnerability, the secure.js script implements sanitization on the username received from the client, thus preventing injection attacks.
+
 What additional security mechanisms can you incorporate?
+1. Eliminate the console logs that contain sensitive information.
+2. Integrate an authentication mechanism for enhanced security.
+3. Encrypt the payload before transmitting information.
