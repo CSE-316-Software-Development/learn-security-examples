@@ -1,8 +1,38 @@
 # Denial-of-Service (DoS)
 
-This example demonstrates DoS vulnerabilities and how they can be exploited.
+Attackers can prevent access to a service by overwhelming it with requests or by exploiting a vulnerability to crash it.
 
-## Steps to reproduce
+Reasons for a DoS vulneability can range from unnecessary exposure to services, to a lack of rate limiting, to a failure to handle high traffic loads.
+
+This example demonstrates a DoS vulnerabilities and how it can be exploited.
+
+## What is the vulnerability?
+
+Consider the GET route function in the web server **insecure.ts**:
+
+```
+app.get('/userinfo', async (req: Request, res: Response) => {
+  const { id } = req.query;
+
+  const uid = id as string;
+
+  const user = await User.findOne({ _id: uid }).exec();
+
+  if (user) {
+    res.send(`User: ${user}`);
+  } else {
+    res.status(401).send('User not found');
+  }
+});
+```
+
+The `id` used in the MongoDB query `User.findOne` is expected to be a valid MongoDB query. However, since there is no error handling, if the incoming request has a an id string that is an invalid MongoDB ID then the server will crash. A malicious actor can spam the server with such invalid ID strings, continuously crashing it, and deny the service to legitimate users.
+
+In the secure version **secure.ts** this vulnerability is prevented by adding proper exception handling and by adding a rate lmiter, which limits every client to sending a specific number of requests per unit time.
+
+## For you to do
+
+Steps to reproduce:
 
 1. Install all dependencies
 
@@ -26,10 +56,4 @@ This will create a database in MongoDB called __infodisclosure__. Verify its pre
 
 4. Do you see the server crashing?
 
-## For you to do
-
-Answer the following:
-
-1. Briefly explain the potential vulnerabilities in **insecure.ts** that can lead to a DoS attack.
-2. Briefly explain how a malicious attacker can exploit them.
-3. Briefly explain the defensive techniques used in **secure.ts** to prevent the DoS vulnerability?
+5. Repeat the steps with **secure.ts**. Is the threat removed? How?

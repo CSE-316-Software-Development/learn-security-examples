@@ -35,7 +35,7 @@ app.use(bodyParser.json());
 // Session middleware
 app.use(session({
   secret: 'your_secret_key',
-  cookie: { httpOnly: true, sameSite: 'strict' }, // SameSite should be a string
+  cookie: { httpOnly: true, sameSite: 'strict', secure: true }, // SameSite should be a string
   resave: false,
   saveUninitialized: true,
 }));
